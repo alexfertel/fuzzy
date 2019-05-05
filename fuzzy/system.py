@@ -1,29 +1,25 @@
 from fuzzy.fuzzification import fuzzify
 
 class Fuzzy:
-    def __init__(self, inputs, outputs, operators, rules):
-        self.inputs = inputs
-        self.outputs = outputs
+    def __init__(self, inputs, outputs, facts, operators, rules):
+        self.inputs = inputs  # variable description in fuzzy sets
+        self.outputs = outputs  # variable description in fuzzy sets
+        self.facts = facts  # <variable name, initial value> dict
         self.operators = operators
         self.rules = rules
 
-    def fuzzify(self, values):
-        # Fuzzify each input real-valued variable to obtain
-        # the corresponding fuzzy sets describing the "labels"
-        # of each variable
+    def fuzzify(self):
         fuzzy_vectors = []
         
-        # :param: values is a `list` of `tuples` of the form
-        # (variable name, real value)
-        for var, value in values:
+        for var, value in self.facts:
             # Consider making self.inputs a `dict`
-            # fuzzy_vectors.append((var, self.inputs[var].apply(value)))
+            fuzzy_vectors.append((var, self.inputs[var].apply(value)))
                         
-            for fuzzy_var in self.inputs:
-                if var == fuzzy_var:
-                    fuzzy_vectors.append((var, fuzzy_var.apply(value)))
+            # for fuzzy_var in self.inputs:
+            #     if var == fuzzy_var:
+            #         fuzzy_vectors.append((var, fuzzy_var.apply(value)))
 
-        assert len(fuzzy_vectors) == len(values)
+        print(fuzzy_vectors)
 
         # Consider if basing rule application on
         # "modus ponens" or "modus tollens"

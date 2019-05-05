@@ -26,7 +26,7 @@ class Rule:
         return Rule(head, body)
 
     @staticmethod
-    def unparse():
+    def unparse(head, body):
         return ''.join(['IF ', self.head, ' THEN ', self.body])
                 
 

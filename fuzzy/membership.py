@@ -1,4 +1,4 @@
-def triangular(a, b, m, x):
+def triangular(a, m, b, x):
     if a <= x <= m:
         return (x - a) / (m - a)
     if m <= x <= b:
