@@ -1,5 +1,7 @@
 from fuzzy.system import Fuzzy
 from fuzzy.fuzzification import Variable
+from fuzzy.facts import Fact
+from fuzzy.operators import Mamdani
 from fuzzy import membership as m
 
 def main():
@@ -22,7 +24,8 @@ def test():
     }
     distance = Variable('distance', distance_sets)
     
-    # Fuzzy([temperature], [distance], [])
+    facts = [Fact.parse("temperature IS 2.76")]
+    Fuzzy([temperature], [distance], facts, Mamdani())
     
     exit(0)
 

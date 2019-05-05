@@ -4,5 +4,12 @@ class Fact:
         self.value = value
     
     @staticmethod
-    def parse():
-        pass
+    def parse(string):
+        tokens = string.strip().split(' ')        
+        assert len(tokens) == 3, "A `Fact` must have 3 tokens!"
+        return Fact(tokens[0], float(tokens[2]))
+
+    @staticmethod
+    def unparse(fact):
+        return "".join([fact.var, " IS ", str(fact.value)])
+
