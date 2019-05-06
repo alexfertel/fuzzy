@@ -18,27 +18,15 @@ class Fuzzy:
         # and square brackets indicate optional. 
         self.rules = [Rule.parse(rule) for rule in rules]
 
-
-    def fuzzify(self, facts):
-        fuzzy_vectors = {var: } 
-        
-
     def infer(self, facts):
-        fuzzy_vectors = []
-        for rule in rules:
+        # Fuzzification
+        self.fuzzy_vectors = { name: self.inputs[name].fuzzify(value) for name, value in facts } 
+        print(self.fuzzy_vectors)
+
+        # Rule application
+        for rule in self.rules:
             clause_evaluation = self.evaluate(rule.head)
-                
-                
-                # fuzzy_vectors.append((var, self.inputs[var].apply(value)))
-
-
-
-                # for fuzzy_var in self.inputs:
-                #     if var == fuzzy_var:
-                #         fuzzy_vectors.append((var, fuzzy_var.apply(value)))
-
-        print(fuzzy_vectors)
-
+            
         # Consider if basing rule application on
         # "modus ponens" or "modus tollens"
 
@@ -47,17 +35,15 @@ class Fuzzy:
         # Defuzzify
 
     def evaluate(self, node):
-        if type(node) is nodes.BinaryNode:
-            if node.value == "IS":
-                for variable in self.inputs:
-                    if variable.name == node.left.value:
-                        variable.sets[node.right.value]()
+        if node.value == "IS":
+            return self.fuzzy_vectors[node.left.value][node.right.value]
+            # for variable in self.inputs:
+            #     if variable.name == node.left.value:
+            #         variable.sets[node.right.value]()
 
-
-            left = self.evaluate(node.left)
-            right = self.evaluate(node.right)
-            operator = self.operators[node.value]
-            return operator.apply(left, right)
-        else:
+        left = self.evaluate(node.left)
+        right = self.evaluate(node.right)
+        operator = self.operators[node.value]
+        return operator.apply(left, right)
             
 

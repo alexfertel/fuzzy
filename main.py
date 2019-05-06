@@ -18,7 +18,7 @@ def test():
     # temperature = Variable('temperature', temperature_sets)
     
     inputs = {
-        'temperature': temperature_sets
+        'temperature': Variable('temperature', temperature_sets)
     }
 
     distance_sets = {
@@ -29,7 +29,7 @@ def test():
     # distance = Variable('distance', distance_sets)
     
     outputs = {
-        'distance': distance_sets
+        'distance': Variable('distance', distance_sets)
     }
 
     facts = [Fact.parse("temperature IS 2.76")]
