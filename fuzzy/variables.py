@@ -2,9 +2,10 @@ from functools import partial
 from fuzzy import membership
 
 class Variable:
-    def __init__(self, name, sets):
+    def __init__(self, name, sets, domain):
         self.name = name
         self.sets = sets
+        self.domain = domain
         # print(sets.items())
         self.fuzzy_sets = { sname: partial(fn, *args) for sname, (fn, args) in sets.items() }
     

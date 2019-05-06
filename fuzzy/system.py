@@ -6,12 +6,13 @@ from functools import partial
 
 
 class Fuzzy:
-    def __init__(self, inputs, outputs, operators, rules):
+    def __init__(self, inputs, outputs, operators, rules, defuzzification_method):
         self.inputs = inputs  # variable description in fuzzy sets
         self.outputs = outputs  # variable description in fuzzy sets
         # self.facts = facts  # <variable name, initial value> dict
         self.operators = operators  # Instance of a class deriving BaseOperatorSet
-        
+        self.defuzz = defuzzification_method  # Defuzzification method to use
+
         # List of strings representing rules of the form:
         # IF <clause> THEN <clause>
         # where <clause> is of the form:
@@ -59,7 +60,14 @@ class Fuzzy:
             maxing[vname] = partial(aggregate, maxing[vname])
 
         print("Aggregate", maxing)
+
         # Defuzzify
+        crisp_output = maxing.copy()
+        for vname in maxing.keys():
+            crisp_output[vname] = self.defuzz(self.outputs[vname].domain, maxing[vname])
+
+        return crisp_output
+
 
 
     def evaluate(self, node):

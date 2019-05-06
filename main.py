@@ -2,6 +2,7 @@ from fuzzy.system import Fuzzy
 from fuzzy.variables import Variable
 from fuzzy.facts import Fact
 from fuzzy.operators import Mamdani
+from fuzzy.deffuzification import centroid
 from fuzzy import membership as m
 
 def main():
@@ -18,7 +19,7 @@ def test():
     # temperature = Variable('temperature', temperature_sets)
     
     inputs = {
-        'temperature': Variable('temperature', temperature_sets)
+        'temperature': Variable('temperature', temperature_sets, (0, 7))
     }
 
     distance_sets = {
@@ -29,7 +30,7 @@ def test():
     # distance = Variable('distance', distance_sets)
     
     outputs = {
-        'distance': Variable('distance', distance_sets)
+        'distance': Variable('distance', distance_sets, (0, 5))
     }
 
     # facts = [Fact.parse("temperature IS 2.76")]
@@ -43,9 +44,10 @@ def test():
     ]
 
     
-    inference_system = Fuzzy(inputs, outputs, Mamdani(), rules)
+    inference_system = Fuzzy(inputs, outputs, Mamdani(), rules, centroid)
     
-    inference_system.infer([("temperature", 2.76)])
+    crisp_output = inference_system.infer([("temperature", 2.76)])
+    print(crisp_output)
 
     exit(0)
 
