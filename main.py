@@ -19,12 +19,22 @@ def test():
     
     distance_sets = {
         'near': (m.r_func, (1, 2)),
-        'middleway': (m.triangular, (2, 3, 4)),
+        'halfway': (m.triangular, (2, 3, 4)),
         'far': (m.l_func, (3, 4)),
     }
     distance = Variable('distance', distance_sets)
     
     facts = [Fact.parse("temperature IS 2.76")]
+
+    rules = [
+        "IF temperature IS cold THEN distance IS near",
+        "IF temperature IS cool THEN distance IS near",
+        "IF temperature IS nominal THEN distance IS halfway",
+        "IF temperature IS warm THEN distance IS far",
+        "IF temperature IS hot THEN distance IS far",
+    ]
+
+    
     Fuzzy([temperature], [distance], facts, Mamdani())
     
     exit(0)
