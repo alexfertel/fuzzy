@@ -1,32 +1,31 @@
-class Operation:
-    def __init__(self, name, op, fn):
-        self.name = name
-        self.op = op
-        self.fn = fn
-
-    def apply(self, left, right):
-        return self.fn(left, right)
-
-# comparison = Operator("comparison", "IS", lambda x, y: x == y)
+from fuzzy import utils
 
 class Clause:
     def __init__(self, operations):
         self.operations = operations
+        self.postfix = utils.shunting_yard(operations)
+        self.ast = utils.postfixtoast(self.postfix)
 
+    @staticmethod
+    def parse(string):
+        tokens = string.strip().split(' ')
+        return Clause(tokens)
+
+    @staticmethod
+    def unparse(clause):
+        return ' '.join(clause.operations)
 
 
 class Rule:
     def __init__(self, head, body):
-        self.head = head
-        self.body = body
+        self.head = Clause.parse(head)
+        self.body = Clause.parse(body)
 
     @staticmethod
     def parse(string):
-        head, body = string.lower().strip().split('then').replace('if', '')
+        head, body = string.strip().split('THEN').replace('IF', '')
         return Rule(head, body)
 
     @staticmethod
-    def unparse(head, body):
-        return ''.join(['IF ', self.head, ' THEN ', self.body])
-                
-
+    def unparse(rule):
+        return ''.join(['IF ', Clause.unparse(rule.head), ' THEN ', Clause.unparse(rule.body)])

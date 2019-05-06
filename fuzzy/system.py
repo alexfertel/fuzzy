@@ -1,4 +1,3 @@
-from fuzzy.fuzzification import fuzzify
 
 class Fuzzy:
     def __init__(self, inputs, outputs, facts, operators, rules):
