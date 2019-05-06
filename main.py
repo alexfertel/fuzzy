@@ -1,5 +1,5 @@
 from fuzzy.system import Fuzzy
-from fuzzy.fuzzification import Variable
+from fuzzy.variables import Variable
 from fuzzy.facts import Fact
 from fuzzy.operators import Mamdani
 from fuzzy import membership as m
@@ -15,15 +15,23 @@ def test():
         'warm': (m.triangular, (4, 5, 6)),
         'hot': (m.l_func, (5, 6)),
     }
-    temperature = Variable('temperature', temperature_sets)
+    # temperature = Variable('temperature', temperature_sets)
     
+    inputs = {
+        'temperature': temperature_sets
+    }
+
     distance_sets = {
         'near': (m.r_func, (1, 2)),
         'halfway': (m.triangular, (2, 3, 4)),
         'far': (m.l_func, (3, 4)),
     }
-    distance = Variable('distance', distance_sets)
+    # distance = Variable('distance', distance_sets)
     
+    outputs = {
+        'distance': distance_sets
+    }
+
     facts = [Fact.parse("temperature IS 2.76")]
 
     rules = [
@@ -35,7 +43,7 @@ def test():
     ]
 
     
-    Fuzzy([temperature], [distance], facts, Mamdani())
+    Fuzzy(inputs, outputs, facts, Mamdani(), rules)
     
     exit(0)
 

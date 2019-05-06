@@ -9,8 +9,8 @@ class BaseOperator:
 
 class BaseOperatorSet(dict):
     def __init__(self, andop, orop):
-        self["and"] = andop
-        self["or"] = orop
+        self["AND"] = andop
+        self["OR"] = orop
 
 class MamdaniTNorm(BaseOperator):
     def __init__(self):
