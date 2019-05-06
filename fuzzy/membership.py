@@ -10,7 +10,7 @@ def trapezoidal(a, b, c, d, x):
         return (x - a) / (b - a)
     if c <= x <= d:
         return (d - x) / (d - c)
-    return b <= x <= c
+    return 1 if b <= x <= c else 0
 
 def r_func(c, d, x):
     return trapezoidal(float('-inf'), float('-inf'), c, d, x)

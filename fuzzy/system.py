@@ -1,6 +1,8 @@
+from fuzzy import membership as m
 from fuzzy.rules import Rule
+from fuzzy.utils import truncate, aggregate
 from fuzzy import nodes
-from functools import reduce
+from functools import partial
 
 
 class Fuzzy:
@@ -21,25 +23,48 @@ class Fuzzy:
     def infer(self, facts):
         # Fuzzification
         self.fuzzy_vectors = { name: self.inputs[name].fuzzify(value) for name, value in facts } 
-        print(self.fuzzy_vectors)
+        print("Fuzzy Vectors:", self.fuzzy_vectors)
+
 
         # Rule application
+        self.clipped = {}
+        for vname in self.outputs.keys():
+            self.clipped[vname] = {}    
+            for sname in self.outputs[vname].sets.keys():
+                self.clipped[vname][sname] = []    
+
+        # self.clipped = { vname: { sname: [] for sname in self.outputs[vname].sets.keys() } for vname in self.outputs.keys() }
         for rule in self.rules:
-            clause_evaluation = self.evaluate(rule.head)
-            
-        # Consider if basing rule application on
-        # "modus ponens" or "modus tollens"
+            head_evaluation = self.evaluate(rule.head.ast)
+            print("Head Evaluation:", head_evaluation)
+            outvar = rule.body.ast.left.value
+            fuzzy_set = rule.body.ast.right.value
+            # curried = self.outputs[outvar].fuzzy_sets[fuzzy_set]
+            # truncated = partial(truncate, curried, head_evaluation)
 
-        # Make aggregation
+            # self.clipped[outvar][fuzzy_set].append(truncated)
+            self.clipped[outvar][fuzzy_set].append(head_evaluation)
 
+        print("Clipped:", self.clipped)
+
+        # Aggregate
+        maxing = {}
+        for vname in self.clipped.keys():
+            maxing[vname] = []
+            for sname, values in self.clipped[vname].items():
+                curried = self.outputs[vname].fuzzy_sets[sname]
+                truncated = partial(truncate, curried, max(values))
+                maxing[vname].append(truncated)
+
+            maxing[vname] = partial(aggregate, maxing[vname])
+
+        print("Aggregate", maxing)
         # Defuzzify
+
 
     def evaluate(self, node):
         if node.value == "IS":
             return self.fuzzy_vectors[node.left.value][node.right.value]
-            # for variable in self.inputs:
-            #     if variable.name == node.left.value:
-            #         variable.sets[node.right.value]()
 
         left = self.evaluate(node.left)
         right = self.evaluate(node.right)

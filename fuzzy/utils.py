@@ -1,5 +1,12 @@
 from fuzzy import nodes
 
+def truncate(curried, value, x):
+    y = curried(x)
+    return value if value < y else y
+
+def aggregate(functions, x):
+    return max(map(lambda fn: fn(x), functions))
+
 def shunting_yard(tokens):
     special = {'(': 2, ')': 2, 'AND': 0, 'OR': 0, 'IS': 1, 'null': -1}
 

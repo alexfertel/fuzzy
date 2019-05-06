@@ -23,7 +23,7 @@ class Rule:
 
     @staticmethod
     def parse(string):
-        head, body = string.strip().split('THEN').replace('IF', '')
+        head, body = string.strip().replace('IF', '').split('THEN')
         return Rule(head, body)
 
     @staticmethod

@@ -32,7 +32,7 @@ def test():
         'distance': Variable('distance', distance_sets)
     }
 
-    facts = [Fact.parse("temperature IS 2.76")]
+    # facts = [Fact.parse("temperature IS 2.76")]
 
     rules = [
         "IF temperature IS cold THEN distance IS near",
@@ -43,8 +43,10 @@ def test():
     ]
 
     
-    Fuzzy(inputs, outputs, facts, Mamdani(), rules)
+    inference_system = Fuzzy(inputs, outputs, Mamdani(), rules)
     
+    inference_system.infer([("temperature", 2.76)])
+
     exit(0)
 
 if __name__ == "__main__":
