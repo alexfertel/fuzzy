@@ -4,30 +4,47 @@ class BaseOperator:
         self.op = op
         self.fn = fn
 
-    def apply(self, left, right):
-        return self.fn(left, right)
+    def apply(self, *args):
+        return self.fn(*args)
 
 class BaseOperatorSet(dict):
-    def __init__(self, andop, orop):
+    def __init__(self, andop=None, orop=None, notop=None, isop=None):
         self["AND"] = andop
         self["OR"] = orop
+        self["NOT"] = notop
+        self["IS"] = istop
 
-class MamdaniTNorm(BaseOperator):
+class DefaultTNorm(BaseOperator):
     def __init__(self):
         name = "Min"
         op = "And"
         fn = lambda x, y: min(x, y)
         super().__init__(name, op, fn)
 
-class MamdaniTConorm(BaseOperator):
+class DefaultTConorm(BaseOperator):
     def __init__(self):
         name = "Max"
         op = "Or"
         fn = lambda x, y: max(x, y)
         super().__init__(name, op, fn)
 
-class Mamdani(BaseOperatorSet):
+class DefaultComplement(BaseOperator):
     def __init__(self):
-        andop = MamdaniTNorm()
-        orop = MamdaniTConorm()
-        super().__init__(andop, orop)
+        name = "Complement"
+        op = "Not"
+        fn = lambda x: 1 - x
+        super().__init__(name, op, fn)
+
+class DefaultComplement(BaseOperator):
+    def __init__(self):
+        name = "Complement"
+        op = "Not"
+        fn = lambda x: 1 - x
+        super().__init__(name, op, fn)
+
+class Default(BaseOperatorSet):
+    def __init__(self):
+        andop = DefaultTNorm()
+        orop = DefaultTConorm()
+        notop = DefaultComplement()
+        super().__init__(andop, orop, notop)

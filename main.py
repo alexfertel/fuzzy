@@ -1,7 +1,7 @@
 from fuzzy.system import Fuzzy
 from fuzzy.variables import Variable
 from fuzzy.facts import Fact
-from fuzzy.operators import Mamdani
+from fuzzy.operators import Default
 from fuzzy.defuzzification import *
 from fuzzy.aggregations import *
 from fuzzy.utils import plot
@@ -57,27 +57,27 @@ def test():
         "IF temperature IS cool THEN distance IS near",
         "IF temperature IS nominal THEN distance IS halfway",
         "IF temperature IS warm THEN distance IS far",
-        "IF temperature IS hot THEN distance IS far",
+        "IF NOT temperature IS cool THEN distance IS far",
     ]
 
     
-    # inference_system = Fuzzy(inputs, outputs, Mamdani(), rules, truncate, centroid)
+    # inference_system = Fuzzy(inputs, outputs, Default(), rules, truncate, centroid)
     # crisp_output = inference_system.infer([("temperature", 2.76)])
     # print(crisp_output)
 
-    # inference_system = Fuzzy(inputs, outputs, Mamdani(), rules, truncate, meanofmaximum)
+    # inference_system = Fuzzy(inputs, outputs, Default(), rules, truncate, meanofmaximum)
     # crisp_output = inference_system.infer([("temperature", 2.76)])
     # print(crisp_output)
 
-    # inference_system = Fuzzy(inputs, outputs, Mamdani(), rules, truncate, smallestofmaximum)
+    # inference_system = Fuzzy(inputs, outputs, Default(), rules, truncate, smallestofmaximum)
     # crisp_output = inference_system.infer([("temperature", 2.76)])
     # print(crisp_output)
 
-    # inference_system = Fuzzy(inputs, outputs, Mamdani(), rules, truncate, largestofmaximum)
+    # inference_system = Fuzzy(inputs, outputs, Default(), rules, truncate, largestofmaximum)
     # crisp_output = inference_system.infer([("temperature", 2.76)])
     # print(crisp_output)
 
-    inference_system = Fuzzy(inputs, outputs, Mamdani(), rules, truncate, bisector)
+    inference_system = Fuzzy(inputs, outputs, Default(), rules, truncate, bisector)
     crisp_output = inference_system.infer([("temperature", 2.76)])
     print(crisp_output)
 

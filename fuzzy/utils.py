@@ -3,7 +3,7 @@ from fuzzy import nodes
 from matplotlib import pyplot as plt
 
 def shunting_yard(tokens):
-    special = {'(': 2, ')': 2, 'AND': 0, 'OR': 0, 'IS': 1, 'null': -1}
+    special = {'(': 2, ')': 2, 'AND': 0, 'OR': 0, 'NOT': 0, 'IS': 1, 'null': -1}
 
     queue, stack = [], []
     for token in tokens:
@@ -17,7 +17,7 @@ def shunting_yard(tokens):
             stack.pop()
         elif token in special.keys():
             top = stack[-1] if len(stack) > 0 else 'null'
-            while special[top] >= special[token] and top != '(':
+            while special[top] > special[token] and top != '(' and top == token:
                 queue.append(stack.pop())
                 if len(stack) > 0:
                     top = stack[-1]
@@ -33,19 +33,25 @@ def shunting_yard(tokens):
     return queue
 
 def postfixtoast(postfix):
-    special = {'AND', 'OR', 'IS'}
+    special = {'AND', 'OR', 'IS', 'NOT'}
 
     stack = []
     for token in postfix:
         if token not in special:
             stack.append(nodes.Node(token))
         else:
-            right = stack.pop()
-            left = stack.pop()
-            node = nodes.BinaryNode(token)
-            node.right = right
-            node.left = left
-            stack.append(node)
+            if token == "NOT":
+                operand = stack.pop()
+                node = nodes.UnaryNode(token)
+                node.child = operand
+                stack.append(node)
+            else:
+                right = stack.pop()
+                left = stack.pop()
+                node = nodes.BinaryNode(token)
+                node.right = right
+                node.left = left
+                stack.append(node)
 
     return stack.pop() if stack else nodes.Node('')
 
@@ -64,7 +70,9 @@ def plot(fns, domain):
 
 
 if __name__ == "__main__":
-    s = "a IS b AND c IS d OR e IS f"
+    # s = "a IS b AND c IS d OR e IS f"
+    # s = "a OR b OR c"
+    s = "a AND NOT ( b OR c )"
     print(s)
     postfix = shunting_yard(s.split(' '))
     print(postfix)
