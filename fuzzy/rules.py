@@ -1,5 +1,5 @@
-class Operator:
-    def __init__(self, name, op, fn)
+class Operation:
+    def __init__(self, name, op, fn):
         self.name = name
         self.op = op
         self.fn = fn
@@ -9,24 +9,14 @@ class Operator:
 
 # comparison = Operator("comparison", "IS", lambda x, y: x == y)
 
-class Condition:
-    def __init__(self, left, op, right)
-        self.left = left
-        self.op = op
-        self.right = right
+class Clause:
+    def __init__(self, operations):
+        self.operations = operations
 
-    @staticmethod
-    def parse(string):
-        head, body = string.lower().strip().split('then').replace('if', '')
-        return Rule(head, body)
-
-    @staticmethod
-    def unparse():
-        return ''.join(['IF ', self.head, ' THEN ', self.body])
 
 
 class Rule:
-    def __init__(self, head, body)
+    def __init__(self, head, body):
         self.head = head
         self.body = body
 
