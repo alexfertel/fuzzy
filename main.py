@@ -2,7 +2,8 @@ from fuzzy.system import Fuzzy
 from fuzzy.variables import Variable
 from fuzzy.facts import Fact
 from fuzzy.operators import Mamdani
-from fuzzy.defuzzification import centroid
+from fuzzy.defuzzification import *
+from fuzzy.aggregations import *
 from fuzzy.utils import plot
 from fuzzy import membership as m
 from functools import partial
@@ -60,9 +61,13 @@ def test():
     ]
 
     
-    inference_system = Fuzzy(inputs, outputs, Mamdani(), rules, centroid)
+    # inference_system = Fuzzy(inputs, outputs, Mamdani(), rules, centroid)
+    # inference_system = Fuzzy(inputs, outputs, Mamdani(), rules, meanofmaximum)
+    # inference_system = Fuzzy(inputs, outputs, Mamdani(), rules, smallestofmaximum)
+    inference_system = Fuzzy(inputs, outputs, Mamdani(), rules, scale, largestofmaximum)
     
-    crisp_output = inference_system.infer([("temperature", 4.4)])
+    crisp_output = inference_system.infer([("temperature", 2.76)])
+    # crisp_output = inference_system.infer([("temperature", 2.76)])
     print(crisp_output)
 
     
