@@ -61,16 +61,25 @@ def test():
     ]
 
     
-    # inference_system = Fuzzy(inputs, outputs, Mamdani(), rules, centroid)
-    # inference_system = Fuzzy(inputs, outputs, Mamdani(), rules, meanofmaximum)
-    # inference_system = Fuzzy(inputs, outputs, Mamdani(), rules, smallestofmaximum)
-    inference_system = Fuzzy(inputs, outputs, Mamdani(), rules, scale, largestofmaximum)
-    
-    crisp_output = inference_system.infer([("temperature", 2.76)])
+    # inference_system = Fuzzy(inputs, outputs, Mamdani(), rules, truncate, centroid)
     # crisp_output = inference_system.infer([("temperature", 2.76)])
-    print(crisp_output)
+    # print(crisp_output)
 
-    
+    # inference_system = Fuzzy(inputs, outputs, Mamdani(), rules, truncate, meanofmaximum)
+    # crisp_output = inference_system.infer([("temperature", 2.76)])
+    # print(crisp_output)
+
+    # inference_system = Fuzzy(inputs, outputs, Mamdani(), rules, truncate, smallestofmaximum)
+    # crisp_output = inference_system.infer([("temperature", 2.76)])
+    # print(crisp_output)
+
+    # inference_system = Fuzzy(inputs, outputs, Mamdani(), rules, truncate, largestofmaximum)
+    # crisp_output = inference_system.infer([("temperature", 2.76)])
+    # print(crisp_output)
+
+    inference_system = Fuzzy(inputs, outputs, Mamdani(), rules, truncate, bisector)
+    crisp_output = inference_system.infer([("temperature", 2.76)])
+    print(crisp_output)
 
     exit(0)
 

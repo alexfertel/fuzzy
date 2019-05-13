@@ -26,7 +26,7 @@ class Fuzzy:
     def infer(self, facts):
         # Fuzzification
         self.fuzzy_vectors = { name: self.inputs[name].fuzzify(value) for name, value in facts } 
-        print("Fuzzy Vectors:", self.fuzzy_vectors)
+        # print("Fuzzy Vectors:", self.fuzzy_vectors)
 
 
         # Rule application
@@ -39,7 +39,7 @@ class Fuzzy:
         # self.clipped = { vname: { sname: [] for sname in self.outputs[vname].sets.keys() } for vname in self.outputs.keys() }
         for rule in self.rules:
             head_evaluation = self.evaluate(rule.head.ast)
-            print("Head Evaluation:", head_evaluation)
+            # print("Head Evaluation:", head_evaluation)
             outvar = rule.body.ast.left.value
             fuzzy_set = rule.body.ast.right.value
             # curried = self.outputs[outvar].fuzzy_sets[fuzzy_set]
@@ -48,7 +48,7 @@ class Fuzzy:
             # self.clipped[outvar][fuzzy_set].append(aggregated)
             self.clipped[outvar][fuzzy_set].append(head_evaluation)
 
-        print("Clipped:", self.clipped)
+        # print("Clipped:", self.clipped)
 
         # Aggregate
         maxing = {}
@@ -61,10 +61,10 @@ class Fuzzy:
 
             maxing[vname] = partial(aggregate, maxing[vname])
 
-        print("Aggregate", maxing)
+        # print("Aggregate", maxing)
 
-        for vname in maxing.keys():
-            plot([maxing[vname]], self.outputs[vname].domain)
+        # for vname in maxing.keys():
+        #     plot([maxing[vname]], self.outputs[vname].domain)
 
         # Defuzzify
         crisp_output = maxing.copy()
