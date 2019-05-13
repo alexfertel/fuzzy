@@ -1,4 +1,6 @@
+import numpy as np
 from fuzzy import nodes
+from matplotlib import pyplot as plt
 
 def truncate(curried, value, x):
     y = curried(x)
@@ -53,6 +55,19 @@ def postfixtoast(postfix):
             stack.append(node)
 
     return stack.pop() if stack else nodes.Node('')
+
+
+
+def plot(fns, domain):
+    a, b = domain
+    x_val = [x for x in np.arange(a, b, .001)]
+
+    for fn in fns:
+        y_val = [fn(x) for x in x_val]
+        plt.plot(x_val, y_val)
+
+    # plt.savefig(f'paper/images/{name}.png', bbox_inches='tight')
+    plt.show()
 
 
 if __name__ == "__main__":

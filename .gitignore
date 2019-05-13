@@ -11,3 +11,5 @@ logs/
 .idea
 
 paper/*[log, out, aux, gz]
+
+bib

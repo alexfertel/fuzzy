@@ -1,6 +1,6 @@
 from fuzzy import membership as m
 from fuzzy.rules import Rule
-from fuzzy.utils import truncate, aggregate
+from fuzzy.utils import truncate, aggregate, plot
 from fuzzy import nodes
 from functools import partial
 
@@ -60,6 +60,10 @@ class Fuzzy:
             maxing[vname] = partial(aggregate, maxing[vname])
 
         print("Aggregate", maxing)
+
+        for vname in maxing.keys():
+            plot([maxing[vname]], self.outputs[vname].domain)
+
 
         # Defuzzify
         crisp_output = maxing.copy()

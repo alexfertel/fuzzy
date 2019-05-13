@@ -8,4 +8,3 @@ def centroid(domain, aggregation):
         denominator += aggregation(x)
 
     return numerator / denominator
-    
