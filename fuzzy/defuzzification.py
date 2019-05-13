@@ -1,6 +1,7 @@
 __all__ = ['centroid', 'meanofmaximum', 'smallestofmaximum', 'largestofmaximum']
 
 import numpy
+from config import STEP
 
 def centroid(domain, aggregation):
     a, b = domain
@@ -40,3 +41,12 @@ def largestofmaximum(domain, aggregation):
     maxs = filter(lambda x: aggregation(x) == m, x_val)
     print("MAXS:", maxs)
     return max(maxs)
+
+def bisector(domain, aggregation):
+    a, b = domain
+    pl, pr, suml, sumr = a, b, 0, 0
+
+    step_size = 
+
+    while pl < pr
+
