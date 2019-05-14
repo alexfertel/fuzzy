@@ -2,6 +2,9 @@ class Node:
     def __init__(self, value):
         self.value = value
 
+    def __repr__(self):
+        return str(self)
+
     def __str__(self):
         return self.value
 
@@ -18,14 +21,17 @@ class BinaryNode(Node):
 
 def preorderprint(tree):
     if type(tree) is UnaryNode:
+        print(f'{tree.child.value} is only child of {tree.value}')
         preorderprint(tree.child)
-        print(tree)
+        # print(tree)
     elif type(tree) is BinaryNode:
+        print(f'{tree.left.value} is left child of {tree.value}')
         preorderprint(tree.left)
-        print(tree)
+        # print(tree)
+        print(f'{tree.right.value} is right child of {tree.value}')
         preorderprint(tree.right)
-    else:
-        print(tree)
+    # else:
+        # print(tree)
 
 def inorderprint(tree):
     if type(tree) is UnaryNode:

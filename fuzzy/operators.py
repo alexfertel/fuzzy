@@ -8,11 +8,10 @@ class BaseOperator:
         return self.fn(*args)
 
 class BaseOperatorSet(dict):
-    def __init__(self, andop=None, orop=None, notop=None, isop=None):
+    def __init__(self, andop=None, orop=None, notop=None):
         self["AND"] = andop
         self["OR"] = orop
         self["NOT"] = notop
-        self["IS"] = istop
 
 class DefaultTNorm(BaseOperator):
     def __init__(self):
@@ -26,13 +25,6 @@ class DefaultTConorm(BaseOperator):
         name = "Max"
         op = "Or"
         fn = lambda x, y: max(x, y)
-        super().__init__(name, op, fn)
-
-class DefaultComplement(BaseOperator):
-    def __init__(self):
-        name = "Complement"
-        op = "Not"
-        fn = lambda x: 1 - x
         super().__init__(name, op, fn)
 
 class DefaultComplement(BaseOperator):

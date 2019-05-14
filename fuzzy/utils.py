@@ -1,9 +1,10 @@
 import numpy as np
 from fuzzy import nodes
+# import nodes
 from matplotlib import pyplot as plt
 
 def shunting_yard(tokens):
-    special = {'(': 2, ')': 2, 'AND': 0, 'OR': 0, 'NOT': 0, 'IS': 1, 'null': -1}
+    special = {'(': 2, ')': 2, 'AND': 1, 'OR': 1, 'NOT': 2, 'IS': 3, 'null': -1}
 
     queue, stack = [], []
     for token in tokens:
@@ -17,7 +18,7 @@ def shunting_yard(tokens):
             stack.pop()
         elif token in special.keys():
             top = stack[-1] if len(stack) > 0 else 'null'
-            while special[top] > special[token] and top != '(' and top == token:
+            while special[top] >= special[token] and top != '(':
                 queue.append(stack.pop())
                 if len(stack) > 0:
                     top = stack[-1]
@@ -68,11 +69,15 @@ def plot(fns, domain):
     # plt.savefig(f'paper/images/{name}.png', bbox_inches='tight')
     plt.show()
 
+def compose(f1, f2, x):
+    y1 = f1(x)
+    y2 = f2(x)
+    return y1 if y1 != 0 else y2
 
 if __name__ == "__main__":
     # s = "a IS b AND c IS d OR e IS f"
-    # s = "a OR b OR c"
-    s = "a AND NOT ( b OR c )"
+    s = "a OR b OR c"
+    # s = "a AND NOT ( b OR c )"
     print(s)
     postfix = shunting_yard(s.split(' '))
     print(postfix)

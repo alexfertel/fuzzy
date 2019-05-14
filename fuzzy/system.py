@@ -4,6 +4,7 @@ from fuzzy.utils import plot
 from fuzzy.aggregations import *
 from fuzzy import nodes
 from functools import partial
+from pprint import pprint
 
 
 class Fuzzy:
@@ -100,8 +101,11 @@ class Fuzzy:
             child = self.evaluate(node.child)
             return operator.apply(child)
         else:
+
             left = self.evaluate(node.left)
             right = self.evaluate(node.right)
-            return operator.apply(left, right)
+            result = operator.apply(left, right)
+            print("OPERATOR:", node.value, "OPERANDS", left, right, "RESULT:", result)
+            return result
             
 

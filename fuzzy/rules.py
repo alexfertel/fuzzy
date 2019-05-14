@@ -8,7 +8,31 @@ class Clause:
 
     @staticmethod
     def parse(string):
+        special = ["AND", "IS", "OR", "NOT", "(", ")"]
         tokens = string.strip().split(' ')
+
+        changed = True
+        while changed:
+            changed = False
+            result = []
+            i = 0
+            while i < len(tokens):
+                if i == len(tokens) - 1:
+                    result.append(tokens[i])
+                    break
+                if tokens[i] not in special and tokens[i + 1] not in special:
+                    result.append(' '.join([tokens[i], tokens[i + 1]]))
+                    changed = True
+                    result.extend(tokens[i + 2:])
+                    break
+                else:
+                    result.append(tokens[i])
+                i += 1
+            # print("New")
+            # print(tokens)
+            # print(result)
+            tokens = result.copy() if changed else tokens
+
         return Clause(tokens)
 
     @staticmethod
