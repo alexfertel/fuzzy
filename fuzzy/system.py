@@ -4,7 +4,6 @@ from fuzzy.utils import plot
 from fuzzy.aggregations import *
 from fuzzy import nodes
 from functools import partial
-from pprint import pprint
 
 
 class Fuzzy:
@@ -27,7 +26,7 @@ class Fuzzy:
     def infer(self, facts):
         # Fuzzification
         self.fuzzy_vectors = { name: self.inputs[name].fuzzify(value) for name, value in facts } 
-        print("Fuzzy Vectors:", self.fuzzy_vectors)
+        # print("Fuzzy Vectors:", self.fuzzy_vectors)
 
 
         # Rule application
@@ -37,23 +36,16 @@ class Fuzzy:
             for sname in self.outputs[vname].sets.keys():
                 self.clipped[vname][sname] = []    
 
-        # self.clipped = { vname: { sname: [] for sname in self.outputs[vname].sets.keys() } for vname in self.outputs.keys() }
         for rule in self.rules:
             head_evaluation = self.evaluate(rule.head.ast)
-            print("Head Evaluation:", head_evaluation)
+            # print("Head Evaluation:", head_evaluation)
 
-            # if type(rule.body.ast) is nodes.BinaryNode:
             outvar = rule.body.ast.left.value
             fuzzy_set = rule.body.ast.right.value
-            # else:
 
-            # curried = self.outputs[outvar].fuzzy_sets[fuzzy_set]
-            # aggregated = partial(self.aggreg, curried, head_evaluation)
-
-            # self.clipped[outvar][fuzzy_set].append(aggregated)
             self.clipped[outvar][fuzzy_set].append(head_evaluation)
 
-        print("Clipped:", self.clipped)
+        # print("Clipped:", self.clipped)
 
         # Aggregate
         maxing = {}
@@ -66,10 +58,10 @@ class Fuzzy:
 
             maxing[vname] = partial(aggregate, maxing[vname])
 
-        print("Aggregate", maxing)
+        # print("Aggregate", maxing)
 
-        for vname in maxing.keys():
-            plot([maxing[vname]], self.outputs[vname].domain)
+        # for vname in maxing.keys():
+        #     plot([maxing[vname]], self.outputs[vname].domain)
 
         # Defuzzify
         crisp_output = maxing.copy()
@@ -77,20 +69,6 @@ class Fuzzy:
             crisp_output[vname] = self.defuzz(self.outputs[vname].domain, maxing[vname])
 
         return crisp_output
-
-    # def evaluate(self, tree):
-    #     if type(tree) is nodes.UnaryNode:
-    #         value = self.evaluate(tree.child)
-    #         operator = self.operators[tree.value]
-    #         return operator.apply(value)
-    #     elif type(tree) is nodes.BinaryNode:
-    #         operator = self.operators[tree.value]
-    #         left = self.evaluate(tree.left)
-    #         right = self.evaluate(tree.right)
-    #         return operator.apply(left, right)
-    #     else:
-    #         print(tree)
-
 
     def evaluate(self, node):
         if node.value == "IS":
@@ -105,7 +83,7 @@ class Fuzzy:
             left = self.evaluate(node.left)
             right = self.evaluate(node.right)
             result = operator.apply(left, right)
-            print("OPERATOR:", node.value, "OPERANDS", left, right, "RESULT:", result)
+            # print("OPERATOR:", node.value, "OPERANDS", left, right, "RESULT:", result)
             return result
             
 

@@ -69,6 +69,27 @@ def plot(fns, domain):
     # plt.savefig(f'paper/images/{name}.png', bbox_inches='tight')
     plt.show()
 
+def plot_with_labels(fns, domain):
+    a, b = domain
+    x_val = [x for x in np.arange(a, b, .001)]
+
+    for fn, label in fns:
+        y_val = [fn(x) for x in x_val]
+        plt.plot(x_val, y_val)
+
+        m = max(y_val)
+
+        maxs = list(filter(lambda x: fn(x) == m, x_val))
+
+        label_x = sum(maxs) / len(maxs)
+        label_y = fn(label_x)
+        plt.text(label_x - (b - a) / 20, label_y, label)
+
+    # plt.savefig(f'paper/images/{name}.png', bbox_inches='tight')
+    plt.show()
+
+
+
 def compose(f1, f2, x):
     y1 = f1(x)
     y2 = f2(x)
